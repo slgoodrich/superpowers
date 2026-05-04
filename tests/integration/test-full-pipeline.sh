@@ -316,11 +316,11 @@ if find "$PROJECT_DIR" -name "*.py" -not -path "*/test_*" -not -path "*/tests/*"
     main_py=$(find "$PROJECT_DIR" -maxdepth 3 -name "main.py" -o -name "cli.py" -o -name "__main__.py" 2>/dev/null | head -1)
     if [[ -n "$main_py" ]]; then
         cd "$PROJECT_DIR"
-        if timeout 30 python "$main_py" sample.csv test_table > /tmp/cli-output.txt 2>&1 && [[ -f *.db || -f *.sqlite ]]; then
+        if timeout 30 python "$main_py" sample.csv test_table > "$OUTPUT_DIR/cli-smoke.txt" 2>&1 && [[ -f *.db || -f *.sqlite ]]; then
             assert "CLI runs end-to-end without error" "true"
         else
             assert "CLI runs end-to-end without error" "false"
-            cat /tmp/cli-output.txt | sed 's/^/    /'
+            cat "$OUTPUT_DIR/cli-smoke.txt" | sed 's/^/    /'
         fi
     fi
 fi
@@ -328,11 +328,11 @@ fi
 # 11. Tests run and pass
 if find "$PROJECT_DIR" -name "test_*.py" -o -name "*_test.py" 2>/dev/null | head -1 | grep -q .; then
     cd "$PROJECT_DIR"
-    if timeout 60 python -m pytest --quiet > /tmp/pytest-output.txt 2>&1; then
+    if timeout 60 python -m pytest --quiet > "$OUTPUT_DIR/pytest-output.txt" 2>&1; then
         assert "pytest passes" "true"
     else
         assert "pytest passes" "false"
-        cat /tmp/pytest-output.txt | sed 's/^/    /' | head -30
+        cat "$OUTPUT_DIR/pytest-output.txt" | sed 's/^/    /' | head -30
     fi
 fi
 
