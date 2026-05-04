@@ -84,6 +84,24 @@ digraph process {
 }
 ```
 
+## Specialist Routing
+
+The implementer subagent is routed by the issue's domain. Read the plan to infer the domain, then dispatch the matching specialist agent.
+
+| Domain | subagent_type |
+|---|---|
+| python | python-pro |
+| typescript | typescript-pro |
+| javascript | javascript-pro |
+| rust | rust-pro |
+| go | golang-pro |
+| sql | sql-pro |
+| (no match) | general-purpose |
+
+**Inferring the domain:** check the plan's `**Tech Stack:**` line, the file paths in tasks (e.g., `src/api/foo.py` → python, `src/components/Foo.tsx` → typescript), and the language of code blocks. Atomic issues are single-domain by construction, so the dominant signal usually wins cleanly. If genuinely ambiguous, fall back to general-purpose.
+
+**Substitution:** when dispatching, replace `[SUBAGENT_TYPE]` in the implementer-prompt template with the inferred value. The rest of the prompt body stays the same; specialists follow the same TDD, self-review, and escalation rules.
+
 ## Model Selection
 
 Use the least powerful model that can handle each role to conserve cost and increase speed.
@@ -119,7 +137,7 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 
 ## Prompt Templates
 
-- `./implementer-prompt.md` - Dispatch implementer subagent
+- `./implementer-prompt.md` - Dispatch implementer subagent. Substitute `[SUBAGENT_TYPE]` per the Specialist Routing section above.
 - `./spec-reviewer-prompt.md` - Dispatch spec compliance reviewer subagent
 - `./code-quality-reviewer-prompt.md` - Dispatch code quality reviewer subagent
 

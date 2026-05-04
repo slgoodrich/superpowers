@@ -11,12 +11,13 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
 
+**Input:** one atomic issue from the spec's issue list (produced by `superpowers-plus:atomic-issues` during brainstorming). **Output:** one plan per issue.
+
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
 **Context:** This should be run in a dedicated worktree (created by brainstorming skill).
 
-**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
-- (User preferences for plan location override this default)
+**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<issue-name>.md`
 
 ## Scope Check
 
@@ -47,7 +48,7 @@ This structure informs the task decomposition. Each task should produce self-con
 **Every plan MUST start with this header:**
 
 ```markdown
-# [Feature Name] Implementation Plan
+# [Issue Title] Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-plus:subagent-driven-development (recommended) or superpowers-plus:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 

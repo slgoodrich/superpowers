@@ -9,7 +9,7 @@ Before opening a PR:
 1. **Read the entire PR template** at `.github/PULL_REQUEST_TEMPLATE.md` and fill in every section with real, specific answers. Not summaries. Not placeholders.
 2. **Search for existing PRs** open AND closed, that address the same problem. If duplicates exist, stop and tell your human partner.
 3. **Verify this is a real problem.** A real problem has a session, error, or user experience attached.
-4. **Confirm the change belongs in core.** Domain-specific or tool-specific changes belong in a separate plugin, not here.
+4. **Confirm the change belongs in core.** Use-case-specific or tool-specific changes belong in a separate plugin, not here.
 5. **Show your human partner the complete diff** and get their approval before submitting.
 
 ## Pull Request Requirements
@@ -32,7 +32,7 @@ The skill content this fork inherits from upstream `superpowers` was extensively
 
 ### Project-specific or personal configuration
 
-Skills, hooks, or configuration that only benefit a specific project, team, domain, or workflow do not belong in core. Publish them as a separate plugin.
+Skills, hooks, or configuration that only benefit a specific project, team, use-case, or workflow do not belong in core. Publish them as a separate plugin.
 
 ### Bulk or spray-and-pray PRs
 
@@ -42,9 +42,9 @@ Each PR requires understanding of the problem, investigation of prior attempts, 
 
 Every PR solves a real problem that someone actually experienced. "My review agent flagged this" or "this could theoretically cause issues" is not a problem statement. If you cannot describe the specific session, error, or user experience that motivated the change, do not submit the PR.
 
-### Domain-specific skills
+### Use-case-specific skills
 
-This fork's skills are general-purpose: they benefit any user regardless of project. Skills for specific domains (portfolio building, prediction markets, games), specific tools, or specific workflows belong in their own plugin. Ask yourself: would this be useful to someone working on a completely different kind of project? If not, publish it separately.
+This fork bundles language and platform specialists (Python, TypeScript, JavaScript, Rust, Go, SQL) because those benefit users across most projects. Skills tied to a specific use-case (portfolio building, prediction markets, games), a specific tool (one company's internal CRM), or a specific workflow (one team's deploy script) do not belong here. Ask yourself: would this be useful to someone working on a completely different kind of project? If not, publish it as its own plugin.
 
 ### Fork-specific changes
 

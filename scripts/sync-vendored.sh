@@ -147,6 +147,25 @@ while IFS='|' read -r src_rel dst_rel; do
   fi
 done <<< "$MANIFEST"
 
+# --- post-copy overrides ---
+# wshobson agents declare model: opus; we override to model: inherit so
+# the dispatcher's Model Selection logic in subagent-driven-development
+# applies. Matches upstream superpowers' code-reviewer pattern.
+override_count=0
+for agent in "$REPO_ROOT/agents/python-pro.md" \
+             "$REPO_ROOT/agents/typescript-pro.md" \
+             "$REPO_ROOT/agents/rust-pro.md" \
+             "$REPO_ROOT/agents/golang-pro.md"; do
+  if [[ -f "$agent" ]] && grep -q '^model: opus$' "$agent"; then
+    sed -i 's/^model: opus$/model: inherit/' "$agent"
+    override_count=$((override_count + 1))
+  fi
+done
+
+if [[ "$override_count" -gt 0 ]]; then
+  printf '  override:  %d agents (model: opus -> inherit)\n' "$override_count"
+fi
+
 echo ""
 echo "Summary:"
 printf '  added:     %d\n' "$added"
