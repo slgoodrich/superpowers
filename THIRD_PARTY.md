@@ -2,37 +2,104 @@
 
 This document tracks vendored content in `superpowers-plus` and its source attribution.
 
-## Vendored from upstream Superpowers
+## Forked from upstream Superpowers
 
-The entire workflow, hooks, and core skill library was forked from:
+The workflow, hooks, and core skill library was forked from:
 
 - **Project:** [obra/superpowers](https://github.com/obra/superpowers)
 - **Author:** Jesse Vincent (jesse@fsck.com)
 - **License:** MIT
-- **Modifications:** atomic-issue decomposition added to brainstorming, domain routing added to subagent-driven-development, multi-harness support removed.
+- **Modifications:** atomic-issue decomposition added to brainstorming, domain routing added to subagent-driven-development, multi-harness support removed, plugin renamed to superpowers-plus.
 
-## Vendored from wshobson/dev-agents
+The fork's full upstream license is preserved in `LICENSE`.
 
-(Phase 3 of the refactor. Not yet populated.)
+## Vendored from wshobson/agents
 
-The following specialist agents and skills will be vendored from [wshobson/dev-agents](https://github.com/wshobson/dev-agents). License and per-file attribution will be filled in when the vendoring lands.
+Specialist agents and skills vendored from:
 
-### Agents (planned)
+- **Project:** [wshobson/agents](https://github.com/wshobson/agents)
+- **Author:** Seth Hobson
+- **License:** MIT (Copyright (c) 2024 Seth Hobson)
+- **Modifications:** none. Files copied verbatim. Sync via `scripts/sync-vendored.sh`.
+- **Local fork:** This vendor process pulls from a local checkout (`../dev-agents` by default). The local fork is renamed to avoid colliding with `slgoodrich/agents`; the upstream of record remains `wshobson/agents`.
 
-- `agents/python-pro.md` - source: `dev-agents/plugins/python-development/agents/python-pro.md`
-- `agents/typescript-pro.md` - source: `dev-agents/plugins/javascript-typescript/agents/typescript-pro.md`
-- `agents/javascript-pro.md` - source: `dev-agents/plugins/javascript-typescript/agents/javascript-pro.md`
-- `agents/rust-pro.md` - source: `dev-agents/plugins/systems-programming/agents/rust-pro.md`
-- `agents/golang-pro.md` - source: `dev-agents/plugins/systems-programming/agents/golang-pro.md`
-- `agents/sql-pro.md` - source: `dev-agents/plugins/database-design/agents/sql-pro.md`
+The wshobson MIT license terms apply to all files listed below. Per the license, the copyright notice is reproduced here:
 
-### Skills (planned)
+> Copyright (c) 2024 Seth Hobson
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-- All 16 skills from `dev-agents/plugins/python-development/skills/`
-- All 4 skills from `dev-agents/plugins/javascript-typescript/skills/`
-- 3 skills from `dev-agents/plugins/systems-programming/skills/`: `go-concurrency-patterns`, `memory-safety-patterns`, `rust-async-patterns`
-- `postgresql` from `dev-agents/plugins/database-design/skills/`
+### Agents (6)
+
+| Vendored at | Source path in dev-agents |
+|---|---|
+| `agents/python-pro.md` | `plugins/python-development/agents/python-pro.md` |
+| `agents/typescript-pro.md` | `plugins/javascript-typescript/agents/typescript-pro.md` |
+| `agents/javascript-pro.md` | `plugins/javascript-typescript/agents/javascript-pro.md` |
+| `agents/rust-pro.md` | `plugins/systems-programming/agents/rust-pro.md` |
+| `agents/golang-pro.md` | `plugins/systems-programming/agents/golang-pro.md` |
+| `agents/sql-pro.md` | `plugins/database-design/agents/sql-pro.md` |
+
+### Skills (24)
+
+**Python (16)** from `plugins/python-development/skills/`:
+
+| Vendored at | Source |
+|---|---|
+| `skills/async-python-patterns/` | `plugins/python-development/skills/async-python-patterns/` |
+| `skills/python-anti-patterns/` | `plugins/python-development/skills/python-anti-patterns/` |
+| `skills/python-background-jobs/` | `plugins/python-development/skills/python-background-jobs/` |
+| `skills/python-code-style/` | `plugins/python-development/skills/python-code-style/` |
+| `skills/python-configuration/` | `plugins/python-development/skills/python-configuration/` |
+| `skills/python-design-patterns/` | `plugins/python-development/skills/python-design-patterns/` |
+| `skills/python-error-handling/` | `plugins/python-development/skills/python-error-handling/` |
+| `skills/python-observability/` | `plugins/python-development/skills/python-observability/` |
+| `skills/python-packaging/` | `plugins/python-development/skills/python-packaging/` |
+| `skills/python-performance-optimization/` | `plugins/python-development/skills/python-performance-optimization/` |
+| `skills/python-project-structure/` | `plugins/python-development/skills/python-project-structure/` |
+| `skills/python-resilience/` | `plugins/python-development/skills/python-resilience/` |
+| `skills/python-resource-management/` | `plugins/python-development/skills/python-resource-management/` |
+| `skills/python-testing-patterns/` | `plugins/python-development/skills/python-testing-patterns/` |
+| `skills/python-type-safety/` | `plugins/python-development/skills/python-type-safety/` |
+| `skills/uv-package-manager/` | `plugins/python-development/skills/uv-package-manager/` |
+
+**JavaScript / TypeScript (4 shared)** from `plugins/javascript-typescript/skills/`:
+
+| Vendored at | Source |
+|---|---|
+| `skills/javascript-testing-patterns/` | `plugins/javascript-typescript/skills/javascript-testing-patterns/` |
+| `skills/modern-javascript-patterns/` | `plugins/javascript-typescript/skills/modern-javascript-patterns/` |
+| `skills/nodejs-backend-patterns/` | `plugins/javascript-typescript/skills/nodejs-backend-patterns/` |
+| `skills/typescript-advanced-types/` | `plugins/javascript-typescript/skills/typescript-advanced-types/` |
+
+**Systems programming (3)** from `plugins/systems-programming/skills/`:
+
+| Vendored at | Source |
+|---|---|
+| `skills/go-concurrency-patterns/` | `plugins/systems-programming/skills/go-concurrency-patterns/` |
+| `skills/memory-safety-patterns/` | `plugins/systems-programming/skills/memory-safety-patterns/` |
+| `skills/rust-async-patterns/` | `plugins/systems-programming/skills/rust-async-patterns/` |
+
+**SQL (1)** from `plugins/database-design/skills/`:
+
+| Vendored at | Source |
+|---|---|
+| `skills/postgresql/` | `plugins/database-design/skills/postgresql/` |
 
 ## Sync strategy
 
-Vendored content is copied at a known revision and updated manually when wshobson ships changes worth pulling. See `scripts/sync-vendored.sh` (to be added in Phase 3) for the sync process.
+Vendored content is copied at a known revision and updated manually when wshobson ships changes worth pulling.
+
+To sync:
+
+```bash
+./scripts/sync-vendored.sh --source /path/to/dev-agents
+git diff --stat
+# review changes, commit if desired
+```
+
+The script reads its manifest internally and reports added/updated/unchanged/missing per item. Diff review is required before commit; never sync blind.
