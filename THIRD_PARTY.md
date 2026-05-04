@@ -2,7 +2,7 @@
 
 This document tracks vendored content in `superpowers-plus` and its source attribution.
 
-## Forked from upstream Superpowers
+## Forked from upstream superpowers
 
 The workflow, hooks, and core skill library was forked from:
 

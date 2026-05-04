@@ -1,6 +1,6 @@
 {
   "name": "superpowers-plus",
-  "description": "Superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills (Python, TypeScript, JavaScript, Rust, Go, SQL)",
+  "description": "superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills (Python, TypeScript, JavaScript, Rust, Go, SQL)",
   "version": "0.1.0",
   "author": {
     "name": "Steve Goodrich",

@@ -1,4 +1,4 @@
-# Superpowers — Contributor Guidelines
+# superpowers-plus contributor guidelines
 
 ## If You Are an AI Agent
 
@@ -30,7 +30,7 @@ If any of these checks fail, do not open the PR. Explain to your human partner w
 
 ### Third-party dependencies
 
-PRs that add optional or required dependencies on third-party projects will not be accepted. Superpowers is a zero-dependency plugin by design. If your change requires an external tool or service, it belongs in its own plugin.
+PRs that add optional or required dependencies on third-party projects will not be accepted. superpowers-plus is a zero-dependency plugin by design (vendored content from wshobson/agents is bundled, not a runtime dependency). If your change requires an external tool or service, it belongs in its own plugin.
 
 ### "Compliance" changes to skills
 
@@ -50,7 +50,7 @@ Every PR must solve a real problem that someone actually experienced. "My review
 
 ### Domain-specific skills
 
-Superpowers core contains general-purpose skills that benefit all users regardless of their project. Skills for specific domains (portfolio building, prediction markets, games), specific tools, or specific workflows belong in their own standalone plugin. Ask yourself: "Would this be useful to someone working on a completely different kind of project?" If not, publish it separately.
+superpowers-plus core contains general-purpose skills that benefit all users regardless of their project. Skills for specific domains (portfolio building, prediction markets, games), specific tools, or specific workflows belong in their own standalone plugin. Ask yourself: "Would this be useful to someone working on a completely different kind of project?" If not, publish it separately.
 
 ### Fork-specific changes
 
@@ -75,7 +75,7 @@ Skills are not prose — they are code that shapes agent behavior. If you modify
 
 ## Understand the Project Before Contributing
 
-Before proposing changes to skill design, workflow philosophy, or architecture, read existing skills and understand the project's design decisions. Superpowers has its own tested philosophy about skill design, agent behavior shaping, and terminology (e.g., "your human partner" is deliberate, not interchangeable with "the user"). Changes that rewrite the project's voice or restructure its approach without understanding why it exists will be rejected.
+Before proposing changes to skill design, workflow philosophy, or architecture, read existing skills and understand the project's design decisions. superpowers-plus inherits superpowers' tested philosophy about skill design, agent behavior shaping, and terminology (e.g., "your human partner" is deliberate, not interchangeable with "the user"). Changes that rewrite the project's voice or restructure its approach without understanding why it exists will be rejected.
 
 ## General
 

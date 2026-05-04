@@ -1,8 +1,8 @@
-# Superpowers-Plus
+# superpowers-plus
 
 > A fork of [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent. **Claude Code only.**
 
-Superpowers-Plus extends the original Superpowers workflow with three additions:
+Superpowers-plus extends the original superpowers workflow with three additions:
 
 1. **Atomic-issue decomposition.** Brainstorming produces a spec plus a list of small, independently-shippable issues instead of one large feature spec.
 2. **Domain-routed specialist agents.** During implementation, the controller infers the issue's language/domain and dispatches to a specialist agent (`python-pro`, `rust-pro`, etc.) instead of a generalist.
@@ -23,9 +23,9 @@ The rest of the workflow - TDD, systematic debugging, git-worktrees, finishing-a
 
 ## Why fork
 
-Stock Superpowers' brainstorming relies on Claude's training-data knowledge of any given language. When working in Python, Rust, etc., specs and implementations don't reflect current idioms or library state. Specialist skills exist (notably wshobson/dev-agents) but stock brainstorming has no mechanism to consult them. The brainstorming skill explicitly forbids invoking other skills during design, which prevents specialist consultation even when relevant skills are installed.
+Stock superpowers' brainstorming relies on Claude's training-data knowledge of any given language. When working in Python, Rust, etc., specs and implementations don't reflect current idioms or library state. Specialist skills exist (notably wshobson/agents) but stock brainstorming has no mechanism to consult them. The brainstorming skill explicitly forbids invoking other skills during design, which prevents specialist consultation even when relevant skills are installed.
 
-Stock Superpowers also produces large monolithic plans (often 2000+ lines) for whole features. Atomic issues with per-issue plans are easier to test, review, and ship.
+Stock superpowers also produces large monolithic plans (often 2000+ lines) for whole features. Atomic issues with per-issue plans are easier to test, review, and ship.
 
 ## Installation
 
@@ -53,7 +53,7 @@ If you have stock `superpowers` installed, you can keep both - they have differe
 | Go | `golang-pro` |
 | SQL | `sql-pro` |
 
-Plus the existing `code-reviewer` agent from Superpowers.
+Plus the existing `code-reviewer` agent from superpowers.
 
 ### Specialist skills (24)
 
@@ -66,7 +66,7 @@ Languages without bundled skills (Java, C#, Bash, etc.) are intentionally exclud
 
 ## The Workflow
 
-The core flow follows Superpowers' design with the atomic-issue extension:
+The core flow follows superpowers' design with the atomic-issue extension:
 
 1. **brainstorming** - Refines the idea, presents design, decomposes into atomic issues
 2. **using-git-worktrees** - Sets up an isolated workspace per issue
@@ -78,7 +78,7 @@ The core flow follows Superpowers' design with the atomic-issue extension:
 
 ## Philosophy
 
-Same as upstream Superpowers, with one addition:
+Same as upstream superpowers, with one addition:
 
 - **Test-Driven Development** - Write tests first, always
 - **Systematic over ad-hoc** - Process over guessing
@@ -90,10 +90,10 @@ Same as upstream Superpowers, with one addition:
 
 This fork is MIT-licensed, same as upstream.
 
-- Core Superpowers content: copyright Jesse Vincent and Prime Radiant. See [obra/superpowers](https://github.com/obra/superpowers) and the original [release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
+- Core superpowers content: copyright Jesse Vincent and Prime Radiant. See [obra/superpowers](https://github.com/obra/superpowers) and the original [release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
 - Vendored specialist agents and skills: see `THIRD_PARTY.md` for source attribution and licensing.
 
-If Superpowers has helped your work, consider [sponsoring Jesse's open-source work](https://github.com/sponsors/obra) - this fork wouldn't exist without his foundation.
+If superpowers has helped your work, consider [sponsoring Jesse's open-source work](https://github.com/sponsors/obra) - this fork wouldn't exist without his foundation.
 
 ## Issues and Contributions
 
