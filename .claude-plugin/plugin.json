@@ -1,10 +1,10 @@
 {
   "name": "superpowers-plus",
-  "description": "Superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills (Python, TypeScript, JavaScript, Rust, Go, SQL)",
-  "version": "5.0.7",
+  "description": "superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills (Python, TypeScript, JavaScript, Rust, Go, SQL)",
+  "version": "0.1.0",
   "author": {
     "name": "Steve Goodrich",
-    "email": "hello@stevelgoodrich.com"
+    "email": "205729572+slgoodrich@users.noreply.github.com"
   },
   "homepage": "https://github.com/slgoodrich/superpowers",
   "repository": "https://github.com/slgoodrich/superpowers",
