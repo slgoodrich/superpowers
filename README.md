@@ -1,198 +1,106 @@
-# Superpowers
+# Superpowers-Plus
 
-Superpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
+> A fork of [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent. **Claude Code only.**
 
-## How it works
+Superpowers-Plus extends the original Superpowers workflow with three additions:
 
-It starts from the moment you fire up your coding agent. As soon as it sees that you're building something, it *doesn't* just jump into trying to write code. Instead, it steps back and asks you what you're really trying to do. 
+1. **Atomic-issue decomposition.** Brainstorming produces a spec plus a list of small, independently-shippable issues instead of one large feature spec.
+2. **Domain-routed specialist agents.** During implementation, the controller infers the issue's language/domain and dispatches to a specialist agent (`python-pro`, `rust-pro`, etc.) instead of a generalist.
+3. **Curated specialist skills.** Bundled language skills give the brainstormer current, idiomatic guidance during design - rather than relying on Claude's training-data knowledge alone.
 
-Once it's teased a spec out of the conversation, it shows it to you in chunks short enough to actually read and digest. 
+## What's different from upstream
 
-After you've signed off on the design, your agent puts together an implementation plan that's clear enough for an enthusiastic junior engineer with poor taste, no judgement, no project context, and an aversion to testing to follow. It emphasizes true red/green TDD, YAGNI (You Aren't Gonna Need It), and DRY. 
+| Area | Upstream `superpowers` | This fork `superpowers-plus` |
+|---|---|---|
+| Harness support | Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Copilot CLI | Claude Code only |
+| Brainstorming output | One feature spec | Spec + atomic-issue list |
+| Plan size | One plan per feature (often very long) | One plan per atomic issue (small) |
+| Implementer subagent | Always `general-purpose` | Domain-routed: `python-pro`, `rust-pro`, `typescript-pro`, `javascript-pro`, `golang-pro`, `sql-pro`, with `general-purpose` fallback |
+| Specialist skills | None bundled | 24 skills bundled across Python, JS/TS, Rust, Go, SQL |
+| Multi-reviewer | Spec + code-quality per task | Same (security/performance reviewers stay project-specific) |
 
-Next up, once you say "go", it launches a *subagent-driven-development* process, having agents work through each engineering task, inspecting and reviewing their work, and continuing forward. It's not uncommon for Claude to be able to work autonomously for a couple hours at a time without deviating from the plan you put together.
+The rest of the workflow - TDD, systematic debugging, git-worktrees, finishing-a-development-branch - is unchanged.
 
-There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
+## Why fork
 
+Stock Superpowers' brainstorming relies on Claude's training-data knowledge of any given language. When working in Python, Rust, etc., specs and implementations don't reflect current idioms or library state. Specialist skills exist (notably wshobson/dev-agents) but stock brainstorming has no mechanism to consult them. The brainstorming skill explicitly forbids invoking other skills during design, which prevents specialist consultation even when relevant skills are installed.
 
-## Sponsorship
-
-If Superpowers has helped you do stuff that makes money and you are so inclined, I'd greatly appreciate it if you'd consider [sponsoring my opensource work](https://github.com/sponsors/obra).
-
-Thanks! 
-
-- Jesse
-
+Stock Superpowers also produces large monolithic plans (often 2000+ lines) for whole features. Atomic issues with per-issue plans are easier to test, review, and ship.
 
 ## Installation
 
-**Note:** Installation differs by platform. 
+**Claude Code only.** This fork removes multi-harness support; vendored specialist agents are a Claude Code feature.
 
-### Claude Code Official Marketplace
-
-Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
-
-Install the plugin from Anthropic's official marketplace:
+Register the marketplace and install:
 
 ```bash
-/plugin install superpowers@claude-plugins-official
+/plugin marketplace add slgoodrich/superpowers
+/plugin install superpowers-plus@superpowers-plus-dev
 ```
 
-### Claude Code (Superpowers Marketplace)
+If you have stock `superpowers` installed, you can keep both - they have different plugin names and don't collide. Disable one or the other via `/plugin` to compare.
 
-The Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.
+## What's bundled
 
-In Claude Code, register the marketplace first:
+### Specialist agents (6)
 
-```bash
-/plugin marketplace add obra/superpowers-marketplace
-```
+| Domain | Agent |
+|---|---|
+| Python | `python-pro` |
+| TypeScript | `typescript-pro` |
+| JavaScript | `javascript-pro` |
+| Rust | `rust-pro` |
+| Go | `golang-pro` |
+| SQL | `sql-pro` |
 
-Then install the plugin from this marketplace:
+Plus the existing `code-reviewer` agent from Superpowers.
 
-```bash
-/plugin install superpowers@superpowers-marketplace
-```
+### Specialist skills (24)
 
-### OpenAI Codex CLI
+- **Python (16):** all skills from wshobson's `python-development` plugin
+- **JS/TS (4):** shared skills covering testing, modern patterns, Node backends, advanced types
+- **Systems (3):** rust-async-patterns, memory-safety-patterns (Rust), go-concurrency-patterns
+- **SQL (1):** postgresql
 
-- Open plugin search interface
+Languages without bundled skills (Java, C#, Bash, etc.) are intentionally excluded for v1 - shipping an implementer agent without specialist skill content gives asymmetric value.
 
-```bash
-/plugins
-```
+## The Workflow
 
-Search for Superpowers
+The core flow follows Superpowers' design with the atomic-issue extension:
 
-```bash
-superpowers
-```
-
-Select `Install Plugin`
-
-### OpenAI Codex App
-
-- In the Codex app, click on Plugins in the sidebar.
-- You should see `Superpowers` in the Coding section. 
-- Click the `+` next to Superpowers and follow the prompts.
-
-
-### Cursor (via Plugin Marketplace)
-
-In Cursor Agent chat, install from marketplace:
-
-```text
-/add-plugin superpowers
-```
-
-or search for "superpowers" in the plugin marketplace.
-
-### OpenCode
-
-Tell OpenCode:
-
-```
-Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
-```
-
-**Detailed docs:** [docs/README.opencode.md](docs/README.opencode.md)
-
-### GitHub Copilot CLI
-
-```bash
-copilot plugin marketplace add obra/superpowers-marketplace
-copilot plugin install superpowers@superpowers-marketplace
-```
-
-### Gemini CLI
-
-```bash
-gemini extensions install https://github.com/obra/superpowers
-```
-
-To update:
-
-```bash
-gemini extensions update superpowers
-```
-
-## The Basic Workflow
-
-1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
-
-2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
-
-3. **writing-plans** - Activates with approved design. Breaks work into bite-sized tasks (2-5 minutes each). Every task has exact file paths, complete code, verification steps.
-
-4. **subagent-driven-development** or **executing-plans** - Activates with plan. Dispatches fresh subagent per task with two-stage review (spec compliance, then code quality), or executes in batches with human checkpoints.
-
-5. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
-
-6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
-
-7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
-
-**The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
-
-## What's Inside
-
-### Skills Library
-
-**Testing**
-- **test-driven-development** - RED-GREEN-REFACTOR cycle (includes testing anti-patterns reference)
-
-**Debugging**
-- **systematic-debugging** - 4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)
-- **verification-before-completion** - Ensure it's actually fixed
-
-**Collaboration** 
-- **brainstorming** - Socratic design refinement
-- **writing-plans** - Detailed implementation plans
-- **executing-plans** - Batch execution with checkpoints
-- **dispatching-parallel-agents** - Concurrent subagent workflows
-- **requesting-code-review** - Pre-review checklist
-- **receiving-code-review** - Responding to feedback
-- **using-git-worktrees** - Parallel development branches
-- **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
-
-**Meta**
-- **writing-skills** - Create new skills following best practices (includes testing methodology)
-- **using-superpowers** - Introduction to the skills system
+1. **brainstorming** - Refines the idea, presents design, decomposes into atomic issues
+2. **using-git-worktrees** - Sets up an isolated workspace per issue
+3. **writing-plans** - Produces one plan per atomic issue
+4. **subagent-driven-development** - Dispatches to a domain-matched specialist with two-stage review
+5. **test-driven-development** - RED-GREEN-REFACTOR
+6. **requesting-code-review** - Reviews against plan, reports by severity
+7. **finishing-a-development-branch** - PR per issue, merge, then next issue
 
 ## Philosophy
+
+Same as upstream Superpowers, with one addition:
 
 - **Test-Driven Development** - Write tests first, always
 - **Systematic over ad-hoc** - Process over guessing
 - **Complexity reduction** - Simplicity as primary goal
 - **Evidence over claims** - Verify before declaring success
+- **Atomic units** - One concern, one domain, independently shippable
 
-Read [the original release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
+## Attribution and License
 
-## Contributing
+This fork is MIT-licensed, same as upstream.
 
-The general contribution process for Superpowers is below. Keep in mind that we don't generally accept contributions of new skills and that any updates to skills must work across all of the coding agents we support.
+- Core Superpowers content: copyright Jesse Vincent and Prime Radiant. See [obra/superpowers](https://github.com/obra/superpowers) and the original [release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
+- Vendored specialist agents and skills: see `THIRD_PARTY.md` for source attribution and licensing.
 
-1. Fork the repository
-2. Switch to the 'dev' branch
-3. Create a branch for your work
-4. Follow the `writing-skills` skill for creating and testing new and modified skills
-5. Submit a PR, being sure to fill in the pull request template.
+If Superpowers has helped your work, consider [sponsoring Jesse's open-source work](https://github.com/sponsors/obra) - this fork wouldn't exist without his foundation.
 
-See `skills/writing-skills/SKILL.md` for the complete guide.
+## Issues and Contributions
 
-## Updating
+This is a small personal fork. Before opening a PR:
 
-Superpowers updates are somewhat coding-agent dependent, but are often automatic.
+- Check that the change isn't already in upstream
+- Read `CLAUDE.md` for contributor guidelines
+- For substantive workflow changes (skills that shape agent behavior), include eval evidence
 
-## License
-
-MIT License - see LICENSE file for details
-
-## Community
-
-Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of the folks at [Prime Radiant](https://primeradiant.com).
-
-- **Discord**: [Join us](https://discord.gg/35wsABTejz) for community support, questions, and sharing what you're building with Superpowers
-- **Issues**: https://github.com/obra/superpowers/issues
-- **Release announcements**: [Sign up](https://primeradiant.com/superpowers/) to get notified about new versions
+For workflow philosophy issues, file upstream first - this fork tracks Jesse's design where it doesn't conflict with the three additions above.
