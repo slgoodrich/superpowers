@@ -64,7 +64,7 @@ of human involvement will be closed without review.
 - [ ] If this is a skills change: I used `superpowers-plus:writing-skills` and
       completed adversarial pressure testing (paste results below)
 - [ ] This change was tested adversarially, not just on the happy path
-- [ ] I did not modify carefully-tuned content (Red Flags table,
+- [ ] I did not modify carefully-tuned upstream content (Red Flags table,
       rationalizations, "human partner" language) without extensive evals
       showing the change is an improvement
 
