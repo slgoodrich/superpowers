@@ -89,7 +89,10 @@ This fork is MIT-licensed, same as upstream.
 - Core superpowers content: copyright Jesse Vincent and Prime Radiant. See [obra/superpowers](https://github.com/obra/superpowers) and the original [release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
 - Vendored specialist agents and skills: see `THIRD_PARTY.md` for source attribution and licensing.
 
-If superpowers has helped your work, consider [sponsoring Jesse's open-source work](https://github.com/sponsors/obra) - this fork wouldn't exist without his foundation.
+This fork stands on the work of two open-source authors. If it has helped you, consider sponsoring both:
+
+- [Jesse Vincent](https://github.com/sponsors/obra) - the superpowers workflow this fork is built on
+- [Seth Hobson](https://github.com/sponsors/wshobson) - the specialist agents and skills bundled in
 
 ## Issues and Contributions
 
