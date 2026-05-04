@@ -31,11 +31,17 @@ echo ""
 # Test 2: Verify skill describes correct workflow order
 echo "Test 2: Workflow ordering..."
 
-output=$(run_claude "In the subagent-driven-development skill, what comes first: spec compliance review or code quality review? Be specific about the order." 30)
+output=$(run_claude "In subagent-driven-development, after the implementer finishes a task, which review runs first: spec-compliance review or code-quality review? Answer with the single word 'spec' or 'code'." 30)
 
-if assert_order "$output" "spec.*compliance" "code.*quality" "Spec compliance before code quality"; then
-    : # pass
+# Take just the answer line (first non-empty word), normalize to lowercase
+answer=$(echo "$output" | tr -d '\r' | grep -oE '\b(spec|code|Spec|Code|SPEC|CODE)\b' | head -1 | tr 'A-Z' 'a-z')
+
+if [ "$answer" = "spec" ]; then
+    echo "  [PASS] Spec compliance runs first (answer: $answer)"
 else
+    echo "  [FAIL] Expected first-word answer 'spec', got: $answer"
+    echo "  Full output:"
+    echo "$output" | sed 's/^/    /' | head -20
     exit 1
 fi
 
@@ -128,9 +134,16 @@ else
     exit 1
 fi
 
-if assert_not_contains "$output" "read.*file\|open.*file" "Doesn't make subagent read file"; then
-    : # pass
+# Probe explicitly: does the subagent itself read the plan file?
+output2=$(run_claude "In subagent-driven-development, is the implementer subagent expected to open and read the plan file itself, or does the controller paste the task text into the prompt? Answer with a single word: 'reads' or 'pasted'." 30)
+answer2=$(echo "$output2" | tr -d '\r' | grep -oE '\b(reads|pasted|Reads|Pasted|READS|PASTED)\b' | head -1 | tr 'A-Z' 'a-z')
+
+if [ "$answer2" = "pasted" ]; then
+    echo "  [PASS] Controller pastes task text (answer: $answer2)"
 else
+    echo "  [FAIL] Expected 'pasted', got: $answer2"
+    echo "  Full output:"
+    echo "$output2" | sed 's/^/    /' | head -20
     exit 1
 fi
 
