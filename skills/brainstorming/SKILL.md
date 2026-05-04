@@ -24,13 +24,14 @@ You MUST create a task for each of these items and complete them in order:
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
 3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
-4. **Propose 2-3 approaches** — with trade-offs and your recommendation
-5. **Present design** — in sections scaled to their complexity, get user approval after each section
-6. **Write design doc** — save to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` and commit
-7. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
-8. **User reviews written spec** — ask user to review the spec file before proceeding
-9. **Decompose into atomic issues** — invoke superpowers-plus:atomic-issues to break the spec into shippable units; save the issue list to the spec doc
-10. **Transition to implementation** — invoke writing-plans for the first issue
+4. **Consult specialist skills** — for each bundled language/domain in scope (python, typescript, javascript, rust, go, sql), invoke the matching specialist skill(s) before proposing approaches. See the "Consulting specialist skills" section below for the routing. Skip if no bundled domain applies.
+5. **Propose 2-3 approaches** — with trade-offs and your recommendation
+6. **Present design** — in sections scaled to their complexity, get user approval after each section
+7. **Write design doc** — save to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` and commit
+8. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
+9. **User reviews written spec** — ask user to review the spec file before proceeding
+10. **Decompose into atomic issues** — invoke superpowers-plus:atomic-issues to break the spec into shippable units; save the issue list to the spec doc
+11. **Transition to implementation** — invoke writing-plans for the first issue
 
 ## Process Flow
 
@@ -40,6 +41,7 @@ digraph brainstorming {
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
     "Ask clarifying questions" [shape=box];
+    "Consult specialist skills\n(if applicable)" [shape=box];
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
@@ -53,7 +55,8 @@ digraph brainstorming {
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
     "Visual questions ahead?" -> "Ask clarifying questions" [label="no"];
     "Offer Visual Companion\n(own message, no other content)" -> "Ask clarifying questions";
-    "Ask clarifying questions" -> "Propose 2-3 approaches";
+    "Ask clarifying questions" -> "Consult specialist skills\n(if applicable)";
+    "Consult specialist skills\n(if applicable)" -> "Propose 2-3 approaches";
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
@@ -79,6 +82,19 @@ digraph brainstorming {
 - Prefer multiple choice questions when possible, but open-ended is fine too
 - Only one question per message - if a topic needs more exploration, break it into multiple questions
 - Focus on understanding: purpose, constraints, success criteria
+
+**Consulting specialist skills:**
+
+For any bundled language or domain in scope, invoke the matching specialist skill(s) to ground design recommendations in current idioms:
+
+- python → `superpowers-plus:python-design-patterns`. Pull in `python-error-handling`, `python-testing-patterns`, `async-python-patterns`, `python-type-safety`, `python-project-structure`, `uv-package-manager`, etc. as relevant.
+- typescript → `superpowers-plus:typescript-advanced-types`. Pull in `modern-javascript-patterns`, `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
+- javascript → `superpowers-plus:modern-javascript-patterns`. Pull in `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
+- rust → `superpowers-plus:rust-async-patterns` and/or `memory-safety-patterns`.
+- go → `superpowers-plus:go-concurrency-patterns`.
+- sql → `superpowers-plus:postgresql`.
+
+If no specialist matches the domain, proceed with general knowledge. Multiple skills can apply (e.g., a Python async API issue uses both `async-python-patterns` and `python-error-handling`).
 
 **Exploring approaches:**
 
