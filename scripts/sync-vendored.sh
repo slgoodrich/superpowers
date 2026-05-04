@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 #
 # sync-vendored.sh - copy specialist agents and skills from wshobson/agents
-# into superpowers-plus. By convention, the local checkout is at ../dev-agents
-# (renamed to avoid colliding with slgoodrich/agents); upstream of record is
-# wshobson/agents.
+# into atomic-superpowers.
 #
 # Usage:
 #   sync-vendored.sh [--source <path>]
 #
-# Default source: $DEV_AGENTS or ../dev-agents (relative to this repo).
+# Default source: $WSHOBSON_AGENTS or ../agents (relative to this repo).
 # Reports what was added, modified, or unchanged. Does not commit.
 # Run after every wshobson update you want to absorb. Diff-review before commit.
 #
@@ -22,7 +20,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # --- args ---
 
-SOURCE="${DEV_AGENTS:-$REPO_ROOT/../dev-agents}"
+SOURCE="${WSHOBSON_AGENTS:-$REPO_ROOT/../agents}"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --source) SOURCE="$2"; shift 2 ;;
@@ -36,18 +34,18 @@ done
 
 if [[ ! -d "$SOURCE" ]]; then
   echo "error: source dir not found: $SOURCE" >&2
-  echo "       set DEV_AGENTS env var or pass --source <path>" >&2
+  echo "       set WSHOBSON_AGENTS env var or pass --source <path>" >&2
   exit 1
 fi
 
 if [[ ! -d "$SOURCE/plugins" ]]; then
-  echo "error: $SOURCE doesn't look like a dev-agents checkout (no plugins/ dir)" >&2
+  echo "error: $SOURCE doesn't look like a wshobson/agents checkout (no plugins/ dir)" >&2
   exit 1
 fi
 
 # --- manifest ---
 #
-# Format: <source-relative-path-in-dev-agents>|<dest-relative-path-in-superpowers-plus>
+# Format: <source-relative-path-in-wshobson-agents>|<dest-relative-path-in-atomic-superpowers>
 # One entry per line. Comments (#) and blank lines ignored.
 
 MANIFEST=$(cat <<'EOF'

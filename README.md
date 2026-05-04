@@ -1,4 +1,4 @@
-# superpowers-plus
+# atomic-superpowers
 
 > A fork of [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent. **Claude Code only.**
 
@@ -10,7 +10,7 @@ Superpowers-plus extends the original superpowers workflow with three additions:
 
 ## What's different from upstream
 
-| Area | Upstream `superpowers` | This fork `superpowers-plus` |
+| Area | Upstream `superpowers` | This fork `atomic-superpowers` |
 |---|---|---|
 | Harness support | Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Copilot CLI | Claude Code only |
 | Brainstorming output | One feature spec | Spec + atomic-issue list |
@@ -34,7 +34,7 @@ Register the marketplace and install:
 
 ```bash
 /plugin marketplace add slgoodrich/superpowers
-/plugin install superpowers-plus@superpowers-plus-marketplace
+/plugin install atomic-superpowers@atomic-superpowers-marketplace
 ```
 
 If you have stock `superpowers` installed, you can keep both - they have different plugin names and don't collide. Disable one or the other via `/plugin` to compare.
@@ -81,6 +81,12 @@ Same as upstream superpowers, with one addition:
 - **Complexity reduction** - Simplicity as primary goal
 - **Evidence over claims** - Verify before declaring success
 - **Atomic units** - One concern, one domain, independently shippable
+
+## Forking and customizing
+
+If the bundled specialist set or routing doesn't match your stack, fork the repo and edit directly. See [COOKBOOK.md](COOKBOOK.md) for recipes covering: adding or removing specialist agents, swapping a vendored agent for your own, adding domain skills, and syncing updates from upstream wshobson.
+
+Per-user shadowing is also supported without forking. Drop files in `~/.claude/agents/` or `~/.claude/skills/`; Claude Code prefers user-scoped files over plugin-scoped ones.
 
 ## Attribution and License
 

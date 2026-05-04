@@ -1,6 +1,6 @@
 # Third-Party Content
 
-This document tracks vendored content in `superpowers-plus` and its source attribution.
+This document tracks vendored content in `atomic-superpowers` and its source attribution.
 
 ## Forked from upstream superpowers
 
@@ -9,7 +9,7 @@ The workflow, hooks, and core skill library was forked from:
 - **Project:** [obra/superpowers](https://github.com/obra/superpowers)
 - **Author:** Jesse Vincent (jesse@fsck.com)
 - **License:** MIT
-- **Modifications:** atomic-issue decomposition added to brainstorming, domain routing added to subagent-driven-development, multi-harness support removed, plugin renamed to superpowers-plus.
+- **Modifications:** atomic-issue decomposition added to brainstorming, domain routing added to subagent-driven-development, multi-harness support removed, plugin renamed to atomic-superpowers.
 
 The fork's full upstream license is preserved in `LICENSE`.
 
@@ -20,8 +20,8 @@ Specialist agents and skills vendored from:
 - **Project:** [wshobson/agents](https://github.com/wshobson/agents)
 - **Author:** Seth Hobson
 - **License:** MIT (Copyright (c) 2024 Seth Hobson)
-- **Modifications:** none. Files copied verbatim. Sync via `scripts/sync-vendored.sh`.
-- **Local fork:** This vendor process pulls from a local checkout (`../dev-agents` by default). The local fork is renamed to avoid colliding with `slgoodrich/agents`; the upstream of record remains `wshobson/agents`.
+- **Modifications:** `model: opus` flipped to `model: inherit` on python-pro, typescript-pro, rust-pro, and golang-pro to align with upstream superpowers' code-reviewer pattern. Other content copied verbatim.
+- **Sync:** `scripts/sync-vendored.sh` (default source `../agents`, configurable via `WSHOBSON_AGENTS` env var or `--source` flag).
 
 The wshobson MIT license terms apply to all files listed below. Per the license, the copyright notice is reproduced here:
 
@@ -35,7 +35,7 @@ The wshobson MIT license terms apply to all files listed below. Per the license,
 
 ### Agents (6)
 
-| Vendored at | Source path in dev-agents |
+| Vendored at | Source path in wshobson/agents |
 |---|---|
 | `agents/python-pro.md` | `plugins/python-development/agents/python-pro.md` |
 | `agents/typescript-pro.md` | `plugins/javascript-typescript/agents/typescript-pro.md` |
@@ -97,7 +97,7 @@ Vendored content is copied at a known revision and updated manually when wshobso
 To sync:
 
 ```bash
-./scripts/sync-vendored.sh --source /path/to/dev-agents
+./scripts/sync-vendored.sh --source /path/to/agents
 git diff --stat
 # review changes, commit if desired
 ```
