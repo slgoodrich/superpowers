@@ -7,7 +7,7 @@ description: Use when decomposing a feature into shippable units. Defines the cr
 
 Reference for decomposing features into atomic, independently-shippable issues.
 
-Used by `superpowers-plus:brainstorming` during decomposition and by `superpowers-plus:writing-plans`, which writes one plan per issue.
+Used by `atomic-superpowers:brainstorming` during decomposition and by `atomic-superpowers:writing-plans`, which writes one plan per issue.
 
 ## What is an atomic issue?
 
@@ -116,10 +116,10 @@ Common mistakes worth naming explicitly:
 
 ## Integration with the workflow
 
-`superpowers-plus:brainstorming` produces a spec that includes the decomposed issue list with dependencies.
+`atomic-superpowers:brainstorming` produces a spec that includes the decomposed issue list with dependencies.
 
-`superpowers-plus:writing-plans` takes one issue at a time and produces a plan file for that issue. The plan is the implementation detail for one atomic issue, not the whole feature.
+`atomic-superpowers:writing-plans` takes one issue at a time and produces a plan file for that issue. The plan is the implementation detail for one atomic issue, not the whole feature.
 
-`superpowers-plus:subagent-driven-development` executes one plan at a time. Routes the implementer subagent to the specialist matching the issue's domain (inferred from plan content), with `general-purpose` as fallback.
+`atomic-superpowers:subagent-driven-development` executes one plan at a time. Routes the implementer subagent to the specialist matching the issue's domain (inferred from plan content), with `general-purpose` as fallback.
 
 The chain: feature → many atomic issues → one plan per issue → one specialist execution per plan → one review pass per plan.

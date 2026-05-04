@@ -1,4 +1,4 @@
-# superpowers-plus contributor guidelines
+# atomic-superpowers contributor guidelines
 
 ## If You Are an AI Agent
 
@@ -24,7 +24,7 @@ PRs that show no evidence of human review will be returned for review.
 
 ### Third-party runtime dependencies
 
-superpowers-plus is a zero-runtime-dependency plugin. Vendored content from `wshobson/agents` is bundled at sync time, not a runtime dependency. If your change requires an external tool or service that users would install separately, it belongs in its own plugin.
+atomic-superpowers is a zero-runtime-dependency plugin. Vendored content from `wshobson/agents` is bundled at sync time, not a runtime dependency. If your change requires an external tool or service that users would install separately, it belongs in its own plugin.
 
 ### "Compliance" changes to upstream skills
 
@@ -64,14 +64,14 @@ Skills are not prose. They are code that shapes agent behavior. The skills inher
 
 If you modify skill content:
 
-- Use `superpowers-plus:writing-skills` to develop and test changes
+- Use `atomic-superpowers:writing-skills` to develop and test changes
 - Run adversarial pressure testing across multiple sessions
 - Show before/after eval results in the PR
 - Do not modify carefully-tuned upstream content (Red Flags tables, rationalization lists, "human partner" language) without evidence the change is an improvement
 
 ## Understand the Project Before Contributing
 
-Before proposing changes to skill design, workflow philosophy, or architecture, read existing skills and understand the project's design decisions. superpowers-plus inherits upstream superpowers' tested philosophy about skill design, agent behavior shaping, and terminology (e.g., "your human partner" is deliberate, not interchangeable with "the user"). Changes that rewrite the project's voice or restructure its approach without understanding why it exists will be returned.
+Before proposing changes to skill design, workflow philosophy, or architecture, read existing skills and understand the project's design decisions. atomic-superpowers inherits upstream superpowers' tested philosophy about skill design, agent behavior shaping, and terminology (e.g., "your human partner" is deliberate, not interchangeable with "the user"). Changes that rewrite the project's voice or restructure its approach without understanding why it exists will be returned.
 
 ## General
 

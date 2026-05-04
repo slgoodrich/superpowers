@@ -1,13 +1,13 @@
 {
-  "name": "superpowers-plus-marketplace",
-  "description": "Marketplace for superpowers-plus, a superpowers fork with atomic-issue decomposition and specialist agent routing",
+  "name": "atomic-superpowers-marketplace",
+  "description": "Marketplace for atomic-superpowers, a superpowers fork with atomic-issue decomposition and specialist agent routing",
   "owner": {
     "name": "Steve Goodrich",
     "email": "205729572+slgoodrich@users.noreply.github.com"
   },
   "plugins": [
     {
-      "name": "superpowers-plus",
+      "name": "atomic-superpowers",
       "description": "superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills",
       "version": "0.1.0",
       "source": "./",

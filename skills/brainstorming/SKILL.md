@@ -30,7 +30,7 @@ You MUST create a task for each of these items and complete them in order:
 7. **Write design doc** — save to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` and commit
 8. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
 9. **User reviews written spec** — ask user to review the spec file before proceeding
-10. **Decompose into atomic issues** — invoke superpowers-plus:atomic-issues to break the spec into shippable units; save the issue list to the spec doc
+10. **Decompose into atomic issues** — invoke atomic-superpowers:atomic-issues to break the spec into shippable units; save the issue list to the spec doc
 11. **Transition to implementation** — invoke writing-plans for the first issue
 
 ## Process Flow
@@ -69,7 +69,7 @@ digraph brainstorming {
 }
 ```
 
-**The terminal state is decomposing into atomic issues, then invoking writing-plans for the first issue.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after the spec is approved is superpowers-plus:atomic-issues, then writing-plans.
+**The terminal state is decomposing into atomic issues, then invoking writing-plans for the first issue.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after the spec is approved is atomic-superpowers:atomic-issues, then writing-plans.
 
 ## The Process
 
@@ -87,12 +87,12 @@ digraph brainstorming {
 
 For any bundled language or domain in scope, invoke the matching specialist skill(s) to ground design recommendations in current idioms:
 
-- python → `superpowers-plus:python-design-patterns`. Pull in `python-error-handling`, `python-testing-patterns`, `async-python-patterns`, `python-type-safety`, `python-project-structure`, `uv-package-manager`, etc. as relevant.
-- typescript → `superpowers-plus:typescript-advanced-types`. Pull in `modern-javascript-patterns`, `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
-- javascript → `superpowers-plus:modern-javascript-patterns`. Pull in `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
-- rust → `superpowers-plus:rust-async-patterns` and/or `memory-safety-patterns`.
-- go → `superpowers-plus:go-concurrency-patterns`.
-- sql → `superpowers-plus:postgresql`.
+- python → `atomic-superpowers:python-design-patterns`. Pull in `python-error-handling`, `python-testing-patterns`, `async-python-patterns`, `python-type-safety`, `python-project-structure`, `uv-package-manager`, etc. as relevant.
+- typescript → `atomic-superpowers:typescript-advanced-types`. Pull in `modern-javascript-patterns`, `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
+- javascript → `atomic-superpowers:modern-javascript-patterns`. Pull in `nodejs-backend-patterns`, `javascript-testing-patterns` as relevant.
+- rust → `atomic-superpowers:rust-async-patterns` and/or `memory-safety-patterns`.
+- go → `atomic-superpowers:go-concurrency-patterns`.
+- sql → `atomic-superpowers:postgresql`.
 
 If no specialist matches the domain, proceed with general knowledge. Multiple skills can apply (e.g., a Python async API issue uses both `async-python-patterns` and `python-error-handling`).
 
@@ -150,7 +150,7 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 **Decomposition:**
 
-After the user approves the spec, invoke `superpowers-plus:atomic-issues` to break the work into shippable units. Add the resulting issue list (with dependencies) to the spec doc. Each issue gets its own plan and PR; issues ship sequentially.
+After the user approves the spec, invoke `atomic-superpowers:atomic-issues` to break the work into shippable units. Add the resulting issue list (with dependencies) to the spec doc. Each issue gets its own plan and PR; issues ship sequentially.
 
 **Implementation:**
 

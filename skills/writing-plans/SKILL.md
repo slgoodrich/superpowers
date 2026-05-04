@@ -11,7 +11,7 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
 
-**Input:** one atomic issue from the spec's issue list (produced by `superpowers-plus:atomic-issues` during brainstorming). **Output:** one plan per issue.
+**Input:** one atomic issue from the spec's issue list (produced by `atomic-superpowers:atomic-issues` during brainstorming). **Output:** one plan per issue.
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
@@ -50,7 +50,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Issue Title] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-plus:subagent-driven-development (recommended) or superpowers-plus:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use atomic-superpowers:subagent-driven-development (recommended) or atomic-superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -145,9 +145,9 @@ After saving the plan, offer execution choice:
 **Which approach?"**
 
 **If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers-plus:subagent-driven-development
+- **REQUIRED SUB-SKILL:** Use atomic-superpowers:subagent-driven-development
 - Fresh subagent per task + two-stage review
 
 **If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers-plus:executing-plans
+- **REQUIRED SUB-SKILL:** Use atomic-superpowers:executing-plans
 - Batch execution with checkpoints for review

@@ -1,6 +1,6 @@
-# Testing superpowers-plus skills
+# Testing atomic-superpowers skills
 
-This document describes how to test superpowers-plus skills, particularly the integration tests for complex skills like `subagent-driven-development`.
+This document describes how to test atomic-superpowers skills, particularly the integration tests for complex skills like `subagent-driven-development`.
 
 ## Overview
 

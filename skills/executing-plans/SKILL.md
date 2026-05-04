@@ -11,7 +11,7 @@ Load plan, review critically, execute all tasks, report when complete.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
-**Note:** subagent-driven-development produces higher quality work than this skill. Prefer superpowers-plus:subagent-driven-development when possible.
+**Note:** subagent-driven-development produces higher quality work than this skill. Prefer atomic-superpowers:subagent-driven-development when possible.
 
 ## The Process
 
@@ -33,7 +33,7 @@ For each task:
 
 After all tasks complete and verified:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
-- **REQUIRED SUB-SKILL:** Use superpowers-plus:finishing-a-development-branch
+- **REQUIRED SUB-SKILL:** Use atomic-superpowers:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
 
 ## When to Stop and Ask for Help
@@ -65,6 +65,6 @@ After all tasks complete and verified:
 ## Integration
 
 **Required workflow skills:**
-- **superpowers-plus:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
-- **superpowers-plus:writing-plans** - Creates the plan this skill executes
-- **superpowers-plus:finishing-a-development-branch** - Complete development after all tasks
+- **atomic-superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
+- **atomic-superpowers:writing-plans** - Creates the plan this skill executes
+- **atomic-superpowers:finishing-a-development-branch** - Complete development after all tasks

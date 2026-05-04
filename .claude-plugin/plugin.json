@@ -1,5 +1,5 @@
 {
-  "name": "superpowers-plus",
+  "name": "atomic-superpowers",
   "description": "superpowers fork with atomic-issue decomposition, domain-routed specialist agents, and curated language skills (Python, TypeScript, JavaScript, Rust, Go, SQL)",
   "version": "0.1.0",
   "author": {

@@ -15,20 +15,20 @@ exists, add a comment or reaction to the existing one instead.
 
 | Field | Value |
 |-------|-------|
-| superpowers-plus version | |
+| atomic-superpowers version | |
 | Claude Code version | |
 | Model | |
 | OS + shell | |
 
-## Is this a superpowers-plus issue or a platform issue?
-<!-- superpowers-plus is a Claude Code plugin. Some reported "bugs" are
+## Is this a atomic-superpowers issue or a platform issue?
+<!-- atomic-superpowers is a Claude Code plugin. Some reported "bugs" are
      actually issues in Claude Code or the model. If you're not sure,
-     try reproducing without superpowers-plus installed.
+     try reproducing without atomic-superpowers installed.
 
-     If the problem persists without superpowers-plus, file the issue
+     If the problem persists without atomic-superpowers, file the issue
      with Claude Code instead. -->
 
-- [ ] I confirmed this issue does not occur without superpowers-plus installed
+- [ ] I confirmed this issue does not occur without atomic-superpowers installed
 
 ## What happened?
 <!-- Be specific. "It doesn't work" is not a bug report. -->
