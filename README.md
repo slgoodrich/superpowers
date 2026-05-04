@@ -35,7 +35,7 @@ Register the marketplace and install:
 
 ```bash
 /plugin marketplace add slgoodrich/superpowers
-/plugin install superpowers-plus@superpowers-plus-dev
+/plugin install superpowers-plus@superpowers-plus-marketplace
 ```
 
 If you have stock `superpowers` installed, you can keep both - they have different plugin names and don't collide. Disable one or the other via `/plugin` to compare.
