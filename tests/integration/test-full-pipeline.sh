@@ -142,66 +142,45 @@ echo "=== Phase 1: Brainstorming + atomic-issue decomposition ==="
 echo ""
 
 INITIAL_SPEC=$(cat <<'EOSPEC'
-Build a small Python CLI tool. I want this fully designed and built using the atomic-superpowers workflow: brainstorming -> atomic-issue decomposition -> writing-plans -> subagent-driven-development. Below is the complete specification. Every design decision is locked. Skip clarifying questions; proceed to propose the approach, present the design, write the spec, decompose into atomic issues, and execute.
+Let's build a Python CLI tool called csv2sqlite. It reads a CSV file and inserts the rows into a SQLite database table.
 
-PURPOSE
-- A CLI tool that reads a CSV file and inserts each row into a SQLite database table.
-- Invocation: `csv2sqlite <csv-path> <table-name> [--db-path PATH]`
-- Column names come from the CSV header row; all columns stored as TEXT.
-- Re-runs append (no deduplication).
+Usage:
+  csv2sqlite <csv-path> <table-name> [--db-path PATH]
 
-CONSTRAINTS
-- Python 3.12+. Standard library only: csv, sqlite3, argparse, pathlib, sys.
-- Default --db-path is ./data.db (relative to the working directory).
-- The table is created with `CREATE TABLE IF NOT EXISTS` so re-runs work.
-- The table name must be a Python identifier (validated before use; rejects names with spaces, quotes, or non-alphanumeric/underscore characters).
+Defaults to ./data.db. Column names come from the CSV header row, all stored as TEXT. Table created with CREATE TABLE IF NOT EXISTS so re-runs append rather than fail.
 
-ERROR HANDLING
+Python 3.12+, standard library only - csv, sqlite3, argparse, pathlib, sys. No third-party deps.
+
+Error cases:
 - Missing CSV file: exit 1, message to stderr.
-- Empty CSV (no header row): exit 2, message to stderr.
-- Invalid table name (fails identifier check): exit 3, message to stderr.
-- Header-only CSV (no data rows): exit 0 silently, table is created empty.
-- Other DB errors propagate naturally and the script exits non-zero.
+- Empty file (no header row): exit 2, message to stderr.
+- Invalid table name (must be a Python identifier - no spaces, quotes, or hyphens): exit 3, message to stderr.
+- Header-only CSV (no data rows): exit 0, table is created empty, no message.
 
-TESTING
-- pytest. Use the `tmp_path` fixture for filesystem isolation.
-- Test cases:
-  1. Happy path: 3-row CSV inserted into a fresh DB, all rows present.
-  2. Re-run appends: running twice doubles the rows.
-  3. Header-only CSV: table created, 0 rows, exit 0.
-  4. Missing CSV file: exit 1.
-  5. Empty file (zero bytes): exit 2.
-  6. Invalid table name (space, quote, hyphen): exit 3.
-- Test by importing the module's entry-point function and calling it with argv-equivalent args, capturing exit codes and stderr.
+Tests with pytest using the tmp_path fixture. Cover the happy path (3-row CSV inserted into a fresh DB), re-run appends correctly, header-only CSV creates an empty table, missing file, empty file, and invalid table name. Test by calling the entry-point function with argv-style args; capture exit codes and stderr.
 
-PROJECT STRUCTURE
-- `pyproject.toml`: minimal packaging metadata, defines a `csv2sqlite` script entry point pointing at the main function.
-- `src/csv2sqlite/__init__.py`: empty.
-- `src/csv2sqlite/main.py`: contains `main(argv: list[str] | None = None) -> int` (the entry point) plus the CSV-to-SQLite logic.
-- `tests/test_main.py`: the pytest cases above.
-- `README.md`: brief usage example.
+Project layout:
+- src/csv2sqlite/__init__.py (empty)
+- src/csv2sqlite/main.py with main(argv: list[str] | None = None) -> int as the entry point
+- tests/test_main.py
+- pyproject.toml with a csv2sqlite script entry point
+- README.md with a usage example
 
-ATOMIC-ISSUES CRITERIA REMINDER
-- Single coherent concern, single language or domain, shippable alone.
-- Use atomic-superpowers:atomic-issues for the decomposition rules.
-- Decompose this work yourself based on the spec above; do not ask me which issues to create.
+There's already a sample.csv in the project root with columns id,name,age and 3 rows.
 
-ROUTING REMINDER
-- For each plan, route the implementer subagent to the matching specialist agent per atomic-superpowers:subagent-driven-development's Specialist Routing section. SQL work routes to sql-pro. Python work routes to python-pro.
-
-NO VISUAL COMPANION needed - skip the offer.
-
-Project context: empty directory with a README.md and a sample.csv (id,name,age columns).
-
-Please proceed through the entire workflow without further clarifying questions. Where the spec is silent, use idiomatic Python defaults. Keep it simple.
+Please build it. I'll defer to your judgment on anything not specified.
 EOSPEC
 )
 
-run_claude_turn "01-idea-with-full-spec" "$INITIAL_SPEC" "new" 300 8
+run_claude_turn "01-spec" "$INITIAL_SPEC" "new" 300 12
 
-run_claude_turn "02-approve-design" "Approach and design look good. Proceed: write the spec doc, do the spec self-review, decompose into atomic issues per atomic-superpowers:atomic-issues, and append the issue list to the spec doc." "continue" 300 8
+# Generic continuation turns. Brainstorming pauses at its built-in gates
+# (design approval, spec approval); we say "looks good" and let it move
+# on. The exact number of pauses doesn't matter; the verification phase
+# checks artifacts.
+run_claude_turn "02-approve" "Looks good. Keep going." "continue" 300 8
 
-run_claude_turn "03-approve-spec" "Spec and decomposition look good. Proceed with the first atomic issue: write its plan, then execute via atomic-superpowers:subagent-driven-development with the matching specialist agent (per the Specialist Routing section)." "continue" 300 8
+run_claude_turn "03-approve" "Yep, keep going." "continue" 300 8
 
 # --- Phase 2: per-issue execution ---
 # After turn 04, the workflow is in writing-plans/SDD for the first issue.
@@ -218,13 +197,13 @@ if [[ "$SKIP_EXECUTION" == "false" ]]; then
     # dispatches + spec compliance review + code quality review + fixes).
     # Each "continue with next issue" turn waits up to 30 minutes.
 
-    run_claude_turn "04-execute" "Continue. Execute the first issue's plan via subagent-driven-development through all reviews until the issue's PR-ready state. Then move to the next issue: write its plan, execute it, all the way through. Continue until all decomposed atomic issues are complete." "continue" 1800 50
+    # Long-timeout continuation turns to push through SDD (which dispatches
+    # implementer + reviewers per task). 30 minutes per turn.
+    run_claude_turn "04-continue" "Keep going." "continue" 1800 50
 
-    # If turn 04 hit max-turns or timeout before finishing all issues,
-    # nudge it forward.
-    run_claude_turn "05-continue" "Continue with the remaining issues. If the previous one is complete, write the plan for the next atomic issue and execute it." "continue" 1800 50
+    run_claude_turn "05-continue" "Keep going." "continue" 1800 50
 
-    run_claude_turn "06-finalize" "Continue with any remaining issues. If everything is done, summarize what was built." "continue" 1800 50
+    run_claude_turn "06-continue" "Keep going. Wrap it up if everything's done." "continue" 1800 50
 fi
 
 # --- Phase 3: Verification ---
