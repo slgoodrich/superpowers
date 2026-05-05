@@ -1,19 +1,19 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "superpowers-plus-marketplace",
+  "description": "Marketplace for superpowers-plus, a superpowers fork with specialist agent routing and curated language skills",
   "owner": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "Steve Goodrich",
+    "email": "205729572+slgoodrich@users.noreply.github.com"
   },
   "plugins": [
     {
-      "name": "superpowers",
-      "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "5.0.7",
+      "name": "superpowers-plus",
+      "description": "superpowers fork with domain-routed specialist agents and curated language skills",
+      "version": "0.1.0",
       "source": "./",
       "author": {
-        "name": "Jesse Vincent",
-        "email": "jesse@fsck.com"
+        "name": "Steve Goodrich",
+        "email": "205729572+slgoodrich@users.noreply.github.com"
       }
     }
   ]

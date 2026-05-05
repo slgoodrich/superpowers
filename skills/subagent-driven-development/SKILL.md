@@ -61,7 +61,7 @@ digraph process {
     "Read plan, extract all tasks with full text, note context, create TodoWrite" [shape=box];
     "More tasks remain?" [shape=diamond];
     "Dispatch final code reviewer subagent for entire implementation" [shape=box];
-    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
+    "Use superpowers-plus:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer subagent asks questions?";
@@ -80,9 +80,27 @@ digraph process {
     "Mark task complete in TodoWrite" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
-    "Dispatch final code reviewer subagent for entire implementation" -> "Use superpowers:finishing-a-development-branch";
+    "Dispatch final code reviewer subagent for entire implementation" -> "Use superpowers-plus:finishing-a-development-branch";
 }
 ```
+
+## Specialist Routing
+
+The implementer subagent is routed by the issue's domain. Read the plan to infer the domain, then dispatch the matching specialist agent.
+
+| Domain | subagent_type |
+|---|---|
+| python | python-pro |
+| typescript | typescript-pro |
+| javascript | javascript-pro |
+| rust | rust-pro |
+| go | golang-pro |
+| sql | sql-pro |
+| (no match) | general-purpose |
+
+**Inferring the domain:** check the plan's `**Tech Stack:**` line, the file paths in tasks (e.g., `src/api/foo.py` → python, `src/components/Foo.tsx` → typescript), and the language of code blocks. Atomic issues are single-domain by construction, so the dominant signal usually wins cleanly. If genuinely ambiguous, fall back to general-purpose.
+
+**Substitution:** when dispatching, replace `[SUBAGENT_TYPE]` in the implementer-prompt template with the inferred value. The rest of the prompt body stays the same; specialists follow the same TDD, self-review, and escalation rules.
 
 ## Model Selection
 
@@ -119,7 +137,7 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 
 ## Prompt Templates
 
-- `./implementer-prompt.md` - Dispatch implementer subagent
+- `./implementer-prompt.md` - Dispatch implementer subagent. Substitute `[SUBAGENT_TYPE]` per the Specialist Routing section above.
 - `./spec-reviewer-prompt.md` - Dispatch spec compliance reviewer subagent
 - `./code-quality-reviewer-prompt.md` - Dispatch code quality reviewer subagent
 
@@ -265,13 +283,13 @@ Done!
 ## Integration
 
 **Required workflow skills:**
-- **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
-- **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Code review template for reviewer subagents
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers-plus:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
+- **superpowers-plus:writing-plans** - Creates the plan this skill executes
+- **superpowers-plus:requesting-code-review** - Code review template for reviewer subagents
+- **superpowers-plus:finishing-a-development-branch** - Complete development after all tasks
 
 **Subagents should use:**
-- **superpowers:test-driven-development** - Subagents follow TDD for each task
+- **superpowers-plus:test-driven-development** - Subagents follow TDD for each task
 
 **Alternative workflow:**
-- **superpowers:executing-plans** - Use for parallel session instead of same-session execution
+- **superpowers-plus:executing-plans** - Use for parallel session instead of same-session execution

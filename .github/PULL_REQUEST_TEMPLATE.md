@@ -16,7 +16,7 @@ of human involvement will be closed without review.
 <!-- 1-3 sentences. What, not why — the "why" belongs above. -->
 
 ## Is this change appropriate for the core library?
-<!-- Superpowers core contains general-purpose skills and infrastructure
+<!-- superpowers-plus core contains general-purpose skills and infrastructure
      that benefit all users. Ask yourself:
 
      - Would this be useful to someone working on a completely different
@@ -46,48 +46,9 @@ of human involvement will be closed without review.
 
 ## Environment tested
 
-| Harness (e.g. Claude Code, Cursor) | Harness version | Model | Model version/ID |
-|-------------------------------------|-----------------|-------|------------------|
-|                                     |                 |       |                  |
-
-## New harness support (required if this PR adds a new harness)
-
-<!-- If this PR adds support for a new harness (IDE, CLI tool, agent
-     runner), you MUST include a session transcript proving the
-     integration actually works.
-
-     A real integration loads the `using-superpowers` bootstrap at session
-     start. The bootstrap is what causes skills to auto-trigger. Without
-     it, the skills are dead weight — present on disk but never invoked
-     at the right moments.
-
-     ACCEPTANCE TEST: Open a clean session in the new harness and send
-     exactly this user message:
-
-         Let's make a react todo list
-
-     A working integration auto-triggers the `brainstorming` skill before
-     any code is written. Paste the complete transcript below.
-
-     These are NOT real integrations and PRs that ship them will be closed:
-
-     - Manually copying skill files into the harness
-     - Wrapping with `npx skills` or similar at-runtime shims
-     - Anything that requires the user to opt in to skills per-session
-     - Anything where brainstorming does not auto-trigger on the test above
-
-     If you are not sure whether your integration loads the bootstrap at
-     session start, it does not.
--->
-
-<details>
-<summary>Clean-session transcript for "Let's make a react todo list"</summary>
-
-```
-paste the complete transcript here
-```
-
-</details>
+| Claude Code version | Model | Model version/ID | OS |
+|---------------------|-------|------------------|-----|
+|                     |       |                  |    |
 
 ## Evaluation
 - What was the initial prompt you (or your human partner) used to start
@@ -100,10 +61,10 @@ paste the complete transcript here
 
 ## Rigor
 
-- [ ] If this is a skills change: I used `superpowers:writing-skills` and
+- [ ] If this is a skills change: I used `superpowers-plus:writing-skills` and
       completed adversarial pressure testing (paste results below)
 - [ ] This change was tested adversarially, not just on the happy path
-- [ ] I did not modify carefully-tuned content (Red Flags table,
+- [ ] I did not modify carefully-tuned upstream content (Red Flags table,
       rationalizations, "human partner" language) without extensive evals
       showing the change is an improvement
 

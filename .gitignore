@@ -5,3 +5,7 @@
 node_modules/
 inspo
 triage/
+
+# Local-only integration tests and comparison tooling (run real claude -p sessions)
+tests/integration/
+scripts/compare-test-runs.py

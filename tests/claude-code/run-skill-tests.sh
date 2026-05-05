@@ -57,7 +57,8 @@ while [[ $# -gt 0 ]]; do
             echo "  --help, -h           Show this help"
             echo ""
             echo "Tests:"
-            echo "  test-subagent-driven-development.sh  Test skill loading and requirements"
+            echo "  test-superpowers-plus-additions-structure.sh   Structural checks for superpowers-plus' additions"
+            echo "  test-subagent-driven-development.sh  Test subagent-driven-development skill loading"
             echo ""
             echo "Integration Tests (use --integration):"
             echo "  test-subagent-driven-development-integration.sh  Full workflow execution"
@@ -73,6 +74,7 @@ done
 
 # List of skill tests to run (fast unit tests)
 tests=(
+    "test-superpowers-plus-additions-structure.sh"
     "test-subagent-driven-development.sh"
 )
 
