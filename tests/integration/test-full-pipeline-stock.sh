@@ -179,27 +179,48 @@ EOSPEC
 )
 
 echo ""
-echo "=== Phase 1: Brainstorming ==="
+echo "=== Phase 1: Brainstorm + plan (one /clear-bounded session) ==="
 echo ""
 
-run_claude_turn "01-spec" "$INITIAL_SPEC" "new" 300 12
+# Brainstorm session: stock superpowers' brainstorming + writing-plans
+# produces a single big plan. We give it room (high max-turns and long
+# timeout) so the brainstorm + plan write completes in one session.
+run_claude_turn "01-brainstorm-plan" "$INITIAL_SPEC" "new" 1800 100
 
-run_claude_turn "02-approve" "Looks good. Keep going." "continue" 300 8
+# Brainstorming may pause for design or spec approval gates. These turns
+# stay --continue so we don't lose brainstorm context until the plan is
+# written.
+run_claude_turn "02-approve" "Looks good. Keep going through to the implementation plan." "continue" 1800 100
 
-run_claude_turn "03-approve" "Yep, keep going." "continue" 300 8
+run_claude_turn "03-approve" "Yep, keep going. Don't pause for further approval." "continue" 1800 100
 
-# --- Phase 2: per-issue execution ---
+# --- Phase 2: implement in a fresh session ---
 
 if [[ "$SKIP_EXECUTION" == "false" ]]; then
     echo ""
-    echo "=== Phase 2: Execution ==="
+    echo "=== Phase 2: Implement plan in fresh session (/clear) ==="
+    echo ""
+    echo "After the brainstorm session produces the plan, we /clear and"
+    echo "execute the plan in a new session. This matches the pattern"
+    echo "atomic-superpowers prescribes: brainstorm > /clear > implement."
     echo ""
 
-    run_claude_turn "04-continue" "Keep going." "continue" 1800 50
+    PLAN_FILE=""
+    if [[ -d "$PROJECT_DIR/docs/superpowers/plans" ]]; then
+        PLAN_FILE=$(find "$PROJECT_DIR/docs/superpowers/plans" -name "*.md" 2>/dev/null | head -1)
+    fi
 
-    run_claude_turn "05-continue" "Keep going." "continue" 1800 50
+    if [[ -z "$PLAN_FILE" ]]; then
+        echo "warning: no plan file found at expected path; falling back to --continue execution"
+        run_claude_turn "04-continue" "Keep going through the plan." "continue" 1800 100
+    else
+        echo "Plan file: $PLAN_FILE"
 
-    run_claude_turn "06-continue" "Keep going. Wrap it up if everything's done." "continue" 1800 50
+        # Fresh session, no --continue. The plan is self-contained.
+        PROMPT="Implement the plan at $PLAN_FILE using subagent-driven-development. Run all review cycles per the skill. When finished, summarize what shipped and exit."
+
+        run_claude_turn "04-implement-fresh" "$PROMPT" "new" 1800 100
+    fi
 fi
 
 # --- Phase 3: Behavior summary ---

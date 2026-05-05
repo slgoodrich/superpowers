@@ -172,15 +172,19 @@ Please build it. I'll defer to your judgment on anything not specified.
 EOSPEC
 )
 
-run_claude_turn "01-spec" "$INITIAL_SPEC" "new" 300 12
+# Brainstorm session: high max-turns to allow brainstorm + atomic-issues
+# decomposition + writing-plans for issue 1 + SDD for issue 1 in one
+# continuous flow. This is one /clear-bounded session; we do not use
+# --continue beyond it.
+run_claude_turn "01-brainstorm-and-issue1" "$INITIAL_SPEC" "new" 1800 100
 
-# Generic continuation turns. Brainstorming pauses at its built-in gates
-# (design approval, spec approval); we say "looks good" and let it move
-# on. The exact number of pauses doesn't matter; the verification phase
-# checks artifacts.
-run_claude_turn "02-approve" "Looks good. Keep going." "continue" 300 8
+# Brainstorming may pause for design or spec approval. If turn 01 stopped
+# at one of those gates, this turn approves and continues within the
+# same session (--continue) so we don't lose the brainstorm context.
+run_claude_turn "02-approve" "Looks good. Keep going through decomposition and through the first issue's implementation." "continue" 1800 100
 
-run_claude_turn "03-approve" "Yep, keep going." "continue" 300 8
+# Final approval prompt if still in brainstorming pauses.
+run_claude_turn "03-approve" "Yep, keep going. Don't pause for further approval." "continue" 1800 100
 
 # --- Phase 2: per-issue execution ---
 # After turn 04, the workflow is in writing-plans/SDD for the first issue.
@@ -190,20 +194,50 @@ run_claude_turn "03-approve" "Yep, keep going." "continue" 300 8
 
 if [[ "$SKIP_EXECUTION" == "false" ]]; then
     echo ""
-    echo "=== Phase 2: Per-issue execution loop ==="
+    echo "=== Phase 2: Per-issue execution with /clear between ==="
+    echo ""
+    echo "After session 01-03 (brainstorm + issue 1), each remaining atomic"
+    echo "issue runs in its own fresh session. Starting a session without"
+    echo "--continue effectively /clears - no prior conversation context"
+    echo "carries forward. Per-issue plans are self-contained."
     echo ""
 
-    # Three issues expected. SDD per issue can take 15-30 minutes (subagent
-    # dispatches + spec compliance review + code quality review + fixes).
-    # Each "continue with next issue" turn waits up to 30 minutes.
+    # Find the spec file produced in the brainstorm session.
+    SPEC_FILE=""
+    if [[ -d "$PROJECT_DIR/docs/superpowers/specs" ]]; then
+        SPEC_FILE=$(find "$PROJECT_DIR/docs/superpowers/specs" -name "*.md" 2>/dev/null | head -1)
+    fi
 
-    # Long-timeout continuation turns to push through SDD (which dispatches
-    # implementer + reviewers per task). 30 minutes per turn.
-    run_claude_turn "04-continue" "Keep going." "continue" 1800 50
+    if [[ -z "$SPEC_FILE" ]]; then
+        echo "warning: no spec file found at expected path; skipping per-issue /clear loop"
+    else
+        echo "Spec file: $SPEC_FILE"
 
-    run_claude_turn "05-continue" "Keep going." "continue" 1800 50
+        # Cap iterations as a safety bound. Most features decompose into
+        # 2-5 atomic issues. Stop early if no progress between iterations.
+        MAX_ITERATIONS=5
+        prev_commit_count=$(git -C "$PROJECT_DIR" rev-list --count HEAD 2>/dev/null || echo 0)
 
-    run_claude_turn "06-continue" "Keep going. Wrap it up if everything's done." "continue" 1800 50
+        for i in $(seq 1 "$MAX_ITERATIONS"); do
+            # Fresh session, no --continue. The implement prompt points at
+            # the spec; the agent reads the issue list and git history to
+            # pick up the next unfinished issue.
+            PROMPT="Continue with the next unfinished atomic issue from the spec at $SPEC_FILE. Look at git log to see what is already done. Write that issue's plan and execute it via subagent-driven-development through all reviews. If every atomic issue in the spec is already complete, just summarize what was built and exit."
+
+            run_claude_turn "$(printf '%02d' $((3 + i)))-issue-fresh" "$PROMPT" "new" 1800 80
+
+            # Progress check: if no new commits since last iteration, the
+            # workflow is stuck or all issues are done. Stop.
+            cur_commit_count=$(git -C "$PROJECT_DIR" rev-list --count HEAD 2>/dev/null || echo 0)
+            if [[ "$cur_commit_count" -le "$prev_commit_count" ]]; then
+                echo ""
+                echo "(no new commits since last iteration; assuming all issues done or stuck)"
+                echo ""
+                break
+            fi
+            prev_commit_count="$cur_commit_count"
+        done
+    fi
 fi
 
 # --- Phase 3: Verification ---
